@@ -23,10 +23,14 @@ function encryptUrl(text) {
 function verifyToken(req, res, next) {
     const token = req.headers['x-secret-token'];
     if (!token || token !== SECRET_TOKEN) {
-        return res.status(403).json({ error: 'غير مصرح' });
+        return res.status(403).json({ error: 'تريد تسحب الملفات 😂 تم التشفير بواسطة سجاد' });
     }
     next();
 }
+app.get('/json', verifyToken, (req, res) => {
+    const encryptedUrl = encryptUrl(process.env.JSON_URL);
+    res.json({ url: encryptedUrl });
+});
 
 app.get('/download', verifyToken, (req, res) => {
     const encryptedUrl = encryptUrl(REAL_URL);
